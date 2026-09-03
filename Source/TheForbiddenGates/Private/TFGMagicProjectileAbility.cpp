@@ -9,6 +9,7 @@ UTFGMagicProjectileAbility::UTFGMagicProjectileAbility()
 {
     InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
     NetExecutionPolicy = EGameplayAbilityNetExecutionPolicy::ServerInitiated;
+    ProjectileClass = ATFGMagicProjectile::StaticClass();
     DamageEffectClass = UTFGDamageGameplayEffect::StaticClass();
 }
 
