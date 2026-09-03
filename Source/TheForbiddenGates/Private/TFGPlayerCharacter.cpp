@@ -10,6 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameplayTagContainer.h"
 #include "InputActionValue.h"
+#include "TFGArcaneBoltAbility.h"
 
 ATFGPlayerCharacter::ATFGPlayerCharacter()
 {
@@ -30,6 +31,8 @@ ATFGPlayerCharacter::ATFGPlayerCharacter()
     FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
     FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
     FollowCamera->bUsePawnControlRotation = false;
+
+    StartupAbilities.Add(UTFGArcaneBoltAbility::StaticClass());
 }
 
 void ATFGPlayerCharacter::BeginPlay()
