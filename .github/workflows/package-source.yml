@@ -1,0 +1,32 @@
+name: Package desktop source
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/package-source.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create source ZIP
+        run: |
+          zip -r the-forbidden-gates-desktop-source.zip . \
+            -x '.git/*' \
+            -x 'the-forbidden-gates-desktop-source.zip'
+
+      - name: Upload source ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: the-forbidden-gates-desktop-source
+          path: the-forbidden-gates-desktop-source.zip
+          if-no-files-found: error
+          retention-days: 30
