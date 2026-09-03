@@ -1,12 +1,12 @@
 # The Forbidden Gates — Desktop
 
-A cinematic third-person fantasy action-adventure RPG built with Unreal Engine 5.8.
+A cinematic third-person fantasy action-adventure RPG built with Unreal Engine 5.8.2.
 
 ## Vision
 The kingdom of Elaris is attacked by the Veyr Dominion, and Princess Elyra Vale disappears beyond the ancient Forbidden Gates. The player follows her across ten magical realms and one hundred story levels, uncovering the true purpose of the Gates, the Gate Masters, the Aetherians, and the entity known as the First Hollow.
 
 ## Production targets
-- Engine: Unreal Engine 5.8
+- Engine: Unreal Engine 5.8.2
 - Primary platform: Windows desktop
 - Gameplay: third-person exploration, magic combat, traversal, puzzles, bosses, quests, collectibles and cinematic story scenes
 - Structure: 10 chapters × 10 long levels
