@@ -1,7 +1,7 @@
 #include "TFGCheckpointActor.h"
 #include "Components/BoxComponent.h"
+#include "Engine/GameInstance.h"
 #include "GameFramework/Pawn.h"
-#include "GameFramework/PlayerController.h"
 #include "TFGProgressionSubsystem.h"
 
 ATFGCheckpointActor::ATFGCheckpointActor()

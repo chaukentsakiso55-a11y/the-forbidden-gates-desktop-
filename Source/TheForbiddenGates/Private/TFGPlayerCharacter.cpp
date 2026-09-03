@@ -1,9 +1,10 @@
 #include "TFGPlayerCharacter.h"
 #include "Camera/CameraComponent.h"
-#include "Components/InputComponent.h"
+#include "Engine/LocalPlayer.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "InputActionValue.h"
 
