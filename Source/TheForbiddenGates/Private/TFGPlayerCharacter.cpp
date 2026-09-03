@@ -1,4 +1,6 @@
 #include "TFGPlayerCharacter.h"
+
+#include "AbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Engine/LocalPlayer.h"
 #include "EnhancedInputComponent.h"
@@ -6,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameplayTagContainer.h"
 #include "InputActionValue.h"
 
 ATFGPlayerCharacter::ATFGPlayerCharacter()
@@ -56,6 +59,8 @@ void ATFGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
     {
         if (MoveAction) EnhancedInput->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATFGPlayerCharacter::Move);
         if (LookAction) EnhancedInput->BindAction(LookAction, ETriggerEvent::Triggered, this, &ATFGPlayerCharacter::Look);
+        if (PrimaryMagicAction) EnhancedInput->BindAction(PrimaryMagicAction, ETriggerEvent::Started, this, &ATFGPlayerCharacter::CastPrimaryMagic);
+
         if (JumpAction)
         {
             EnhancedInput->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
@@ -79,4 +84,14 @@ void ATFGPlayerCharacter::Look(const FInputActionValue& Value)
     const FVector2D LookAxis = Value.Get<FVector2D>();
     AddControllerYawInput(LookAxis.X);
     AddControllerPitchInput(LookAxis.Y);
+}
+
+void ATFGPlayerCharacter::CastPrimaryMagic()
+{
+    if (UAbilitySystemComponent* AbilitySystemComponent = GetAbilitySystemComponent())
+    {
+        FGameplayTagContainer AbilityTags;
+        AbilityTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Ability.Magic.Primary")));
+        AbilitySystemComponent->TryActivateAbilitiesByTag(AbilityTags);
+    }
 }
