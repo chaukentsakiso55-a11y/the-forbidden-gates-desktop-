@@ -40,7 +40,11 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Forbidden Gates|Input")
     TObjectPtr<UInputAction> JumpAction;
 
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Forbidden Gates|Input")
+    TObjectPtr<UInputAction> PrimaryMagicAction;
+
 private:
     void Move(const FInputActionValue& Value);
     void Look(const FInputActionValue& Value);
+    void CastPrimaryMagic();
 };
