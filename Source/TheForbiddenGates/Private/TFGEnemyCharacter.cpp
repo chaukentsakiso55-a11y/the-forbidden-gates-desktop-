@@ -1,14 +1,19 @@
 #include "TFGEnemyCharacter.h"
+
 #include "AbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "TFGAttributeSet.h"
+#include "TFGEnemyAIController.h"
 
 ATFGEnemyCharacter::ATFGEnemyCharacter()
 {
     StartingHealth = 80.0f;
     StartingMana = 50.0f;
     StartingStamina = 80.0f;
+
+    AIControllerClass = ATFGEnemyAIController::StaticClass();
+    AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
 void ATFGEnemyCharacter::BeginPlay()
