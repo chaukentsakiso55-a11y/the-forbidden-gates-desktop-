@@ -2,6 +2,10 @@ name: Build Windows Shipping
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-windows-shipping.yml'
 
 permissions:
   contents: read
@@ -74,3 +78,5 @@ jobs:
           path: Artifacts/Windows/**
           if-no-files-found: error
           retention-days: 30
+
+# Final Shipping build trigger: 2026-09-05
