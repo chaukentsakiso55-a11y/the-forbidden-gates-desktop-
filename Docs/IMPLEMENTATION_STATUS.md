@@ -2,68 +2,79 @@
 
 ## Current production slice
 
-The desktop and Android projects share the same gameplay architecture and canonical campaign order.
+Desktop and Android now share the same canonical campaign progression through the midpoint at Level 50.
 
-### Playable code-driven campaign prototypes
+## Playable campaign coverage
 
-1. **Level 1 — Morning in Elaris**
-   - Captain Arlen training sequence
-   - Festival market and Mira interaction
-   - Princess Elyra festival encounter
-   - City overlook transition
-   - Checkpoints and persistent quest state
+### Levels 1–3 — authored code prototypes
 
-2. **Level 2 — The Sky Turns Red**
-   - Warning-bell opening
-   - Civilian evacuation route
-   - First Veyr encounters
-   - Southern-district rescue sequence
-   - Veyr blockade with the first Brute archetype
-   - Protected-district transition
+1. **Morning in Elaris** — training, festival, Mira, Elyra, checkpoints and persistent quests.
+2. **The Sky Turns Red** — invasion, evacuations, Veyr encounters, rescue route and blockade.
+3. **Palace Under Siege** — palace approach, Gate shard, Gatefire Echo, heavy assault and royal hall.
 
-3. **Level 3 — Palace Under Siege**
-   - Breached royal avenue
-   - Palace approach encounters
-   - Aetherian Gate shard relic
-   - Gatefire Echo unlock
-   - Heavy palace-step assault
-   - Defensive ward activation
-   - Royal hall objective
+### Levels 4–50 — data-driven campaign runtime
+
+The reusable `TFGCampaignLevelRuntime` generates the playable prototype route for every canonical campaign level from 4 through 50. Every runtime level has:
+
+- its canonical title and story premise
+- persistent quest state
+- objective HUD updates
+- start and midpoint autosave checkpoints
+- story interactions and dialogue beats
+- combat encounters
+- elite encounters on major trials and confrontation levels
+- realm-specific placeholder geometry patterns
+- level completion and same-map runtime transition into the next campaign definition
+
+Campaign chapters covered:
+
+- **Chapter I — The Fall of Elaris:** Levels 1–10
+- **Chapter II — The Whispering Wilds:** Levels 11–20
+- **Chapter III — The Ember Kingdom:** Levels 21–30
+- **Chapter IV — The Sunken Realm:** Levels 31–40
+- **Chapter V — The Stormlands:** Levels 41–50
+
+Important campaign rewards are persistent, including the First Gate Sigil, Elaris Gate Key, Verdant Seal/mastery, Crown of Embers, Oath of Flame, Tide records/mastery, Storm Archive and Dominion evidence.
+
+## Level 50 midpoint
+
+**Level 50 — Elyra** is implemented as a deliberate stopping point rather than automatically entering an unbuilt Level 51. Kael reaches Elyra, she refuses to return to Elaris, and reveals that the seals are failing and that Elaris is central to the Heart Gate crisis. Completion is saved while the player remains at the midpoint scene.
 
 ## Shared gameplay systems
 
 - Gameplay Ability System foundation
-- Health, mana, stamina, magic power, and armor
+- health, mana, stamina, magic power and armor
 - Arcane Bolt primary spell
 - Gatefire Echo secondary spell
-- Mana cost and cooldown enforcement
-- Dodge with stamina cost and resource regeneration
-- Enemy sight/chase/melee behavior
-- Veyr Brute enemy archetype
-- Quest persistence
-- Checkpoints and save restoration
-- Interaction and dialogue system
-- Objective HUD and combat HUD
-- Encounter zones
-- Relic collection, inventory, ability unlocks, and discipline mastery
-- Code-built placeholder environments for gameplay testing before final art maps
+- mana cost and cooldown enforcement
+- dodge with stamina cost and resource regeneration
+- enemy sight/chase/melee behavior
+- Veyr Brute and reusable campaign elite archetypes
+- quest persistence and save restoration
+- checkpoints
+- interaction and dialogue system
+- objective HUD and combat HUD
+- encounter zones
+- relic collection and crash-safe quest-linked relic recovery
+- inventory, ability unlocks and discipline mastery
+- code-built placeholder environments for gameplay testing before final art maps
 
 ## Platform-specific layers
 
-Android additionally contains its mobile touch controls, device-quality logic, thermal safeguards, and first-launch Android TTS narration bridge. Desktop keeps keyboard/mouse and controller controls and Windows packaging workflows.
+Android additionally contains mobile touch controls, device-quality logic, thermal safeguards and the first-launch Android TTS narration bridge. Desktop keeps keyboard/mouse and controller controls plus Windows packaging workflows.
 
 ## Validation status
 
-Repository-health workflows validate required project structure and production rules. They are not a substitute for a full Unreal Engine C++ compile, cook, package, or device test. Final Windows and Android binaries still require an Unreal Engine 5.8.x build machine with the necessary platform toolchains.
+Repository-health workflows now require the campaign runtime files and verify that all catalog definitions from Levels 4 through 50 are present, that Level 50 contains its Elyra midpoint definition, and that GameMode routes runtime levels correctly.
 
-## Next campaign target
+These checks validate repository structure and campaign coverage. They are **not** a substitute for a full Unreal Engine C++ compile, cook, package, performance pass, gameplay QA or final-device test. Final Windows and Android binaries still require an Unreal Engine 5.8.x build machine with the required platform toolchains.
 
-**Level 4 — The Vanishing Princess**
+## Art/content status
 
-Planned production slice:
-- inner royal hall
-- Elyra disappearance sequence
-- Veyr commander encounter setup
-- first evidence that the attackers came specifically for Elyra
-- additional relic/loot opportunities
-- transition toward Level 5 — Ashes of the Courtyard
+Levels 4–50 currently use generated prototype geometry and reusable gameplay actors. Final production still requires authored 3D environments, characters, animation sets, cinematics, VFX, audio, navigation tuning, bespoke boss mechanics, puzzles and per-level art dressing.
+
+## Current campaign hold point
+
+**Level 50 — Elyra**
+
+The next canonical level is Level 51 — **An Uneasy Alliance**, but it is intentionally not entered by the current midpoint build.
