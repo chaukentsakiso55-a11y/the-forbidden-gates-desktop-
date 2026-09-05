@@ -1,29 +1,69 @@
-# Production implementation status
+# The Forbidden Gates — Implementation Status
 
-## Runtime foundation now implemented
-- Gameplay Ability System-ready character base.
-- Replicated health, mana, stamina, magic power and armor attributes.
-- Player third-person camera and Enhanced Input hooks.
-- Enemy base with health-driven defeat lifecycle.
-- Blueprintable magic ability metadata with the ten magic disciplines.
-- Quest component supporting start, stage progression, completion and save import/export.
-- Versioned save/progression subsystem with migration support.
-- Checkpoint actor with optional autosave.
-- Level/chapter progression for the full 100-level campaign.
-- Gate, ability, relic, mastery, inventory and narrative-choice persistence.
-- Canonical gameplay tags for all ten realms and magic disciplines.
+## Current production slice
 
-## Next Unreal Editor content pass
-1. Create BP_Kael from ATFGPlayerCharacter.
-2. Create Enhanced Input assets IA_Move, IA_Look, IA_Jump and IMC_Player.
-3. Build the Chapter 1 greybox maps and place checkpoint actors.
-4. Create the first Gameplay Effects for damage, healing, mana cost and cooldowns.
-5. Create the first abilities: Arcane Bolt, Gate Pulse, Dodge and Light Ward.
-6. Create BP_EnemyBase and initial Veyr soldier variants.
-7. Build HUD widgets for health, mana, stamina, objectives and boss health.
-8. Create the Level Definition DataTable for all 100 levels.
-9. Add animation blueprints, montages, VFX and sound cues.
-10. Run Windows Development and Shipping builds before expanding content production.
+The desktop and Android projects share the same gameplay architecture and canonical campaign order.
 
-## Production rule
-No level is considered complete until gameplay, checkpointing, objective state, performance, accessibility cues, save/load, failure recovery and a packaged-build smoke test all pass.
+### Playable code-driven campaign prototypes
+
+1. **Level 1 — Morning in Elaris**
+   - Captain Arlen training sequence
+   - Festival market and Mira interaction
+   - Princess Elyra festival encounter
+   - City overlook transition
+   - Checkpoints and persistent quest state
+
+2. **Level 2 — The Sky Turns Red**
+   - Warning-bell opening
+   - Civilian evacuation route
+   - First Veyr encounters
+   - Southern-district rescue sequence
+   - Veyr blockade with the first Brute archetype
+   - Protected-district transition
+
+3. **Level 3 — Palace Under Siege**
+   - Breached royal avenue
+   - Palace approach encounters
+   - Aetherian Gate shard relic
+   - Gatefire Echo unlock
+   - Heavy palace-step assault
+   - Defensive ward activation
+   - Royal hall objective
+
+## Shared gameplay systems
+
+- Gameplay Ability System foundation
+- Health, mana, stamina, magic power, and armor
+- Arcane Bolt primary spell
+- Gatefire Echo secondary spell
+- Mana cost and cooldown enforcement
+- Dodge with stamina cost and resource regeneration
+- Enemy sight/chase/melee behavior
+- Veyr Brute enemy archetype
+- Quest persistence
+- Checkpoints and save restoration
+- Interaction and dialogue system
+- Objective HUD and combat HUD
+- Encounter zones
+- Relic collection, inventory, ability unlocks, and discipline mastery
+- Code-built placeholder environments for gameplay testing before final art maps
+
+## Platform-specific layers
+
+Android additionally contains its mobile touch controls, device-quality logic, thermal safeguards, and first-launch Android TTS narration bridge. Desktop keeps keyboard/mouse and controller controls and Windows packaging workflows.
+
+## Validation status
+
+Repository-health workflows validate required project structure and production rules. They are not a substitute for a full Unreal Engine C++ compile, cook, package, or device test. Final Windows and Android binaries still require an Unreal Engine 5.8.x build machine with the necessary platform toolchains.
+
+## Next campaign target
+
+**Level 4 — The Vanishing Princess**
+
+Planned production slice:
+- inner royal hall
+- Elyra disappearance sequence
+- Veyr commander encounter setup
+- first evidence that the attackers came specifically for Elyra
+- additional relic/loot opportunities
+- transition toward Level 5 — Ashes of the Courtyard
