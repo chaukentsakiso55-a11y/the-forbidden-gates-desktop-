@@ -1,39 +1,69 @@
 #include "TFGRelicPickupActor.h"
+
 #include "Engine/GameInstance.h"
 #include "TFGPlayerCharacter.h"
 #include "TFGProgressionSubsystem.h"
 
-ATFGRelicPickupActor::ATFGRelicPickupActor(){InteractionPrompt=FText::FromString(TEXT("Collect relic"));SpeakerName=FText::FromString(TEXT("Relic"));bOneShot=true;}
+ATFGRelicPickupActor::ATFGRelicPickupActor()
+{
+    InteractionPrompt = FText::FromString(TEXT("Collect relic"));
+    SpeakerName = FText::FromString(TEXT("Relic"));
+    bOneShot = true;
+}
+
 bool ATFGRelicPickupActor::CanInteract_Implementation(APawn* Interactor) const
 {
-    if(!Super::CanInteract_Implementation(Interactor))return false;
-    if(!RelicId.IsNone())
+    if (!Super::CanInteract_Implementation(Interactor)) return false;
+
+    if (!RelicId.IsNone())
     {
-        if(UGameInstance* GI=GetGameInstance())
+        if (UGameInstance* GameInstance = GetGameInstance())
         {
-            if(UTFGProgressionSubsystem* P=GI->GetSubsystem<UTFGProgressionSubsystem>())
+            if (UTFGProgressionSubsystem* Progression = GameInstance->GetSubsystem<UTFGProgressionSubsystem>())
             {
-                const bool bAlreadyCollected=P->HasRelic(RelicId);
-                const bool bQuestLinkedRecovery=!QuestId.IsNone()&&RequiredQuestStage>=0;
-                if(bAlreadyCollected&&!bQuestLinkedRecovery)return false;
+                const bool bAlreadyCollected = Progression->HasRelic(RelicId);
+                const bool bQuestLinkedRecovery = !QuestId.IsNone() && RequiredQuestStage >= 0;
+                if (bAlreadyCollected && !bQuestLinkedRecovery)
+                {
+                    return false;
+                }
             }
         }
     }
+
     return true;
 }
+
 void ATFGRelicPickupActor::Interact_Implementation(APawn* Interactor)
 {
-    if(!CanInteract_Implementation(Interactor))return;
-    if(UGameInstance* GI=GetGameInstance())
+    if (!CanInteract_Implementation(Interactor)) return;
+
+    bool bAlreadyCollected = false;
+    UTFGProgressionSubsystem* Progression = nullptr;
+    if (UGameInstance* GameInstance = GetGameInstance())
     {
-        if(UTFGProgressionSubsystem* P=GI->GetSubsystem<UTFGProgressionSubsystem>())
+        Progression = GameInstance->GetSubsystem<UTFGProgressionSubsystem>();
+        if (Progression && !RelicId.IsNone())
         {
-            if(!RelicId.IsNone())P->CollectRelic(RelicId);
-            if(!ItemId.IsNone()&&Quantity>0)P->AddItem(ItemId,Quantity);
-            if(!DisciplineId.IsNone()&&MasteryAmount>0)P->AddDisciplineMastery(DisciplineId,MasteryAmount);
-            if(!AbilityUnlockId.IsNone())P->UnlockAbility(AbilityUnlockId);
+            bAlreadyCollected = Progression->HasRelic(RelicId);
         }
     }
-    if(ATFGPlayerCharacter* Player=Cast<ATFGPlayerCharacter>(Interactor))Player->RefreshUnlockedAbilities();
+
+    if (Progression && !bAlreadyCollected)
+    {
+        if (!RelicId.IsNone()) Progression->CollectRelic(RelicId);
+        if (!ItemId.IsNone() && Quantity > 0) Progression->AddItem(ItemId, Quantity);
+        if (!DisciplineId.IsNone() && MasteryAmount > 0) Progression->AddDisciplineMastery(DisciplineId, MasteryAmount);
+        if (!AbilityUnlockId.IsNone()) Progression->UnlockAbility(AbilityUnlockId);
+    }
+
+    if (!bAlreadyCollected)
+    {
+        if (ATFGPlayerCharacter* Player = Cast<ATFGPlayerCharacter>(Interactor))
+        {
+            Player->RefreshUnlockedAbilities();
+        }
+    }
+
     Super::Interact_Implementation(Interactor);
 }
