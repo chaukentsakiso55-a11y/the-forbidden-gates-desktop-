@@ -2,7 +2,7 @@
 
 ## Current production slice
 
-Desktop and Android now share the same canonical campaign progression through the midpoint at Level 50.
+Desktop and Android now share the complete canonical campaign progression through **Level 100 — What Lies Beyond**.
 
 ## Playable campaign coverage
 
@@ -12,19 +12,9 @@ Desktop and Android now share the same canonical campaign progression through th
 2. **The Sky Turns Red** — invasion, evacuations, Veyr encounters, rescue route and blockade.
 3. **Palace Under Siege** — palace approach, Gate shard, Gatefire Echo, heavy assault and royal hall.
 
-### Levels 4–50 — data-driven campaign runtime
+### Levels 4–100 — data-driven campaign runtime
 
-The reusable `TFGCampaignLevelRuntime` generates the playable prototype route for every canonical campaign level from 4 through 50. Every runtime level has:
-
-- its canonical title and story premise
-- persistent quest state
-- objective HUD updates
-- start and midpoint autosave checkpoints
-- story interactions and dialogue beats
-- combat encounters
-- elite encounters on major trials and confrontation levels
-- realm-specific placeholder geometry patterns
-- level completion and same-map runtime transition into the next campaign definition
+The reusable `TFGCampaignLevelRuntime` generates the playable prototype route for every canonical campaign level from 4 through 100. Every runtime level has its canonical story definition, persistent quest state, objective HUD, autosave checkpoints, story interactions, combat encounters, elite encounters where appropriate, realm-specific placeholder geometry and campaign progression.
 
 Campaign chapters covered:
 
@@ -33,12 +23,33 @@ Campaign chapters covered:
 - **Chapter III — The Ember Kingdom:** Levels 21–30
 - **Chapter IV — The Sunken Realm:** Levels 31–40
 - **Chapter V — The Stormlands:** Levels 41–50
+- **Chapter VI — The Broken Kingdom:** Levels 51–60
+- **Chapter VII — The Shadow Realm:** Levels 61–70
+- **Chapter VIII — The Ancient World:** Levels 71–80
+- **Chapter IX — The Last Gate:** Levels 81–90
+- **Chapter X — The Heart Gate:** Levels 91–100
 
-Important campaign rewards are persistent, including the First Gate Sigil, Elaris Gate Key, Verdant Seal/mastery, Crown of Embers, Oath of Flame, Tide records/mastery, Storm Archive and Dominion evidence.
+## Story milestones implemented in the runtime
 
-## Level 50 midpoint
+The code-driven campaign includes dedicated beats for Elyra's Level 50 reveal, the King's hidden Heart Gate plan, Vael the Fallen, Kael's Ardyn failsafe lineage, Orion and the full Hollow history, Emperor Vaelor, the final return to Elaris, Aldren's confrontation, the Heart Gate chamber, and the First Hollow confrontation.
 
-**Level 50 — Elyra** is implemented as a deliberate stopping point rather than automatically entering an unbuilt Level 51. Kael reaches Elyra, she refuses to return to Elaris, and reveals that the seals are failing and that Elaris is central to the Heart Gate crisis. Completion is saved while the player remains at the midpoint scene.
+Important persistent rewards include the First Gate Sigil, Elaris Gate Key, Verdant Seal, Crown of Embers, Oath of Flame, Tide and Storm records, Dominion evidence, recovered Gate Sigil, King's records, Umbral traversal, Shadow Seal, Ardyn lineage record, Elyra's Gatefire pattern, Heart Key, Last Sigil, final sealing ritual and Kael's Heart Gate Master bond.
+
+## Save compatibility
+
+The runtime keeps the original Level 4–50 map/quest identifier format so existing checkpoints remain compatible. Saves that were previously parked at the old Level 50 midpoint hold automatically migrate into **Level 51 — An Uneasy Alliance**.
+
+## Level 100 finale
+
+**Level 100 — What Lies Beyond** is a terminal campaign state. It does not transition to a nonexistent Level 101.
+
+After the First Hollow is defeated, the player reaches the restored Heart Gate and chooses one of three persistent endings:
+
+1. **Seal the Gates** — the network is sealed and the world grows quieter.
+2. **Destroy the Gates** — the realms become permanently connected.
+3. **Control the Gates** — Kael becomes guardian of the Gate network.
+
+The chosen fate is stored in `NarrativeChoices` as `FinalGateFate`. Level 100 is marked complete, `CampaignComplete` is saved, and **New Game+** is unlocked.
 
 ## Shared gameplay systems
 
@@ -57,6 +68,7 @@ Important campaign rewards are persistent, including the First Gate Sigil, Elari
 - encounter zones
 - relic collection and crash-safe quest-linked relic recovery
 - inventory, ability unlocks and discipline mastery
+- persistent final narrative choices
 - code-built placeholder environments for gameplay testing before final art maps
 
 ## Platform-specific layers
@@ -65,16 +77,16 @@ Android additionally contains mobile touch controls, device-quality logic, therm
 
 ## Validation status
 
-Repository-health workflows now require the campaign runtime files and verify that all catalog definitions from Levels 4 through 50 are present, that Level 50 contains its Elyra midpoint definition, and that GameMode routes runtime levels correctly.
+Repository-health workflows require the campaign runtime files and verify that all catalog definitions from Levels 4 through 100 are present, Level 50 contains its Elyra midpoint, Level 100 is marked as the finale, all three ending choices are implemented, the Level 50 save migration exists and GameMode routes runtime levels correctly.
 
 These checks validate repository structure and campaign coverage. They are **not** a substitute for a full Unreal Engine C++ compile, cook, package, performance pass, gameplay QA or final-device test. Final Windows and Android binaries still require an Unreal Engine 5.8.x build machine with the required platform toolchains.
 
 ## Art/content status
 
-Levels 4–50 currently use generated prototype geometry and reusable gameplay actors. Final production still requires authored 3D environments, characters, animation sets, cinematics, VFX, audio, navigation tuning, bespoke boss mechanics, puzzles and per-level art dressing.
+Levels 4–100 currently use generated prototype geometry and reusable gameplay actors. Final production still requires authored 3D environments, characters, animation sets, cinematic sequences, VFX, audio, navigation tuning, bespoke boss mechanics, puzzles and per-level art dressing.
 
-## Current campaign hold point
+## Current campaign endpoint
 
-**Level 50 — Elyra**
+**Level 100 — What Lies Beyond**
 
-The next canonical level is Level 51 — **An Uneasy Alliance**, but it is intentionally not entered by the current midpoint build.
+The full 100-level campaign is represented in the runtime. The next production phase is content-authoring and polish rather than adding more main-campaign levels.
