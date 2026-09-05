@@ -13,18 +13,10 @@ class THEFORBIDDENGATES_API ATFGEnemyCharacter : public ATFGCharacterBase
 
 public:
     ATFGEnemyCharacter();
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Forbidden Gates|Enemy")
-    FName EnemyId = NAME_None;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Forbidden Gates|Enemy", meta=(ClampMin="0"))
-    int32 ExperienceReward = 10;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Forbidden Gates|Enemy")
-    bool bBoss = false;
-
-    UPROPERTY(BlueprintAssignable)
-    FTFGEnemyDefeated OnEnemyDefeated;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Forbidden Gates|Enemy") FName EnemyId = NAME_None;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Forbidden Gates|Enemy", meta=(ClampMin="0")) int32 ExperienceReward = 10;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Forbidden Gates|Enemy") bool bBoss = false;
+    UPROPERTY(BlueprintAssignable) FTFGEnemyDefeated OnEnemyDefeated;
 
 protected:
     virtual void BeginPlay() override;

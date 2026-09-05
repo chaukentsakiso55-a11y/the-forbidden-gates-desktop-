@@ -1,6 +1,10 @@
 #include "TFGCharacterBase.h"
 #include "AbilitySystemComponent.h"
 #include "Abilities/GameplayAbility.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Engine/StaticMesh.h"
+#include "UObject/ConstructorHelpers.h"
 #include "TFGAttributeSet.h"
 #include "TFGQuestComponent.h"
 
@@ -14,6 +18,17 @@ ATFGCharacterBase::ATFGCharacterBase()
 
     Attributes = CreateDefaultSubobject<UTFGAttributeSet>(TEXT("Attributes"));
     QuestComponent = CreateDefaultSubobject<UTFGQuestComponent>(TEXT("QuestComponent"));
+
+    PlaceholderBody = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlaceholderBody"));
+    PlaceholderBody->SetupAttachment(RootComponent);
+    PlaceholderBody->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    PlaceholderBody->SetRelativeScale3D(FVector(0.45f, 0.45f, 1.0f));
+
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> CylinderMesh(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
+    if (CylinderMesh.Succeeded())
+    {
+        PlaceholderBody->SetStaticMesh(CylinderMesh.Object);
+    }
 }
 
 void ATFGCharacterBase::BeginPlay()
@@ -27,6 +42,14 @@ void ATFGCharacterBase::BeginPlay()
     AbilitySystem->SetNumericAttributeBase(UTFGAttributeSet::GetManaAttribute(), StartingMana);
     AbilitySystem->SetNumericAttributeBase(UTFGAttributeSet::GetMaxStaminaAttribute(), StartingStamina);
     AbilitySystem->SetNumericAttributeBase(UTFGAttributeSet::GetStaminaAttribute(), StartingStamina);
+    AbilitySystem->SetNumericAttributeBase(UTFGAttributeSet::GetMagicPowerAttribute(), StartingMagicPower);
+    AbilitySystem->SetNumericAttributeBase(UTFGAttributeSet::GetArmorAttribute(), StartingArmor);
+
+    const bool bHasFinalMesh = GetMesh() && GetMesh()->GetSkeletalMeshAsset() != nullptr;
+    if (PlaceholderBody)
+    {
+        PlaceholderBody->SetVisibility(!bHasFinalMesh, true);
+    }
 
     GrantStartupAbilities();
 }

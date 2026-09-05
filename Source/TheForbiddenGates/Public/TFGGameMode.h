@@ -11,7 +11,6 @@ class THEFORBIDDENGATES_API ATFGGameMode : public AGameModeBase
 
 public:
     ATFGGameMode();
-
-    UFUNCTION(BlueprintCallable, Category="Forbidden Gates|Progression")
-    void CompleteCurrentLevel(float CompletionTimeSeconds = 0.0f);
+    virtual void BeginPlay() override;
+    UFUNCTION(BlueprintCallable, Category="Forbidden Gates|Progression") void CompleteCurrentLevel(float CompletionTimeSeconds = 0.0f);
 };

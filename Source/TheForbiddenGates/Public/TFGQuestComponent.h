@@ -14,29 +14,18 @@ class THEFORBIDDENGATES_API UTFGQuestComponent : public UActorComponent
 
 public:
     UTFGQuestComponent();
+    UFUNCTION(BlueprintCallable, Category="Forbidden Gates|Quest") bool StartQuest(FName QuestId);
+    UFUNCTION(BlueprintCallable, Category="Forbidden Gates|Quest") bool AdvanceQuest(FName QuestId, int32 NewStage);
+    UFUNCTION(BlueprintCallable, Category="Forbidden Gates|Quest") bool CompleteQuest(FName QuestId);
+    UFUNCTION(BlueprintPure, Category="Forbidden Gates|Quest") bool GetQuestState(FName QuestId, FTFGQuestState& OutState) const;
+    UFUNCTION(BlueprintCallable, Category="Forbidden Gates|Quest") void ImportQuestStates(const TArray<FTFGQuestState>& InStates);
+    UFUNCTION(BlueprintPure, Category="Forbidden Gates|Quest") const TArray<FTFGQuestState>& ExportQuestStates() const { return QuestStates; }
+    UPROPERTY(BlueprintAssignable) FTFGQuestChanged OnQuestChanged;
 
-    UFUNCTION(BlueprintCallable, Category="Forbidden Gates|Quest")
-    bool StartQuest(FName QuestId);
-
-    UFUNCTION(BlueprintCallable, Category="Forbidden Gates|Quest")
-    bool AdvanceQuest(FName QuestId, int32 NewStage);
-
-    UFUNCTION(BlueprintCallable, Category="Forbidden Gates|Quest")
-    bool CompleteQuest(FName QuestId);
-
-    UFUNCTION(BlueprintPure, Category="Forbidden Gates|Quest")
-    bool GetQuestState(FName QuestId, FTFGQuestState& OutState) const;
-
-    UFUNCTION(BlueprintCallable, Category="Forbidden Gates|Quest")
-    void ImportQuestStates(const TArray<FTFGQuestState>& InStates);
-
-    UFUNCTION(BlueprintPure, Category="Forbidden Gates|Quest")
-    const TArray<FTFGQuestState>& ExportQuestStates() const { return QuestStates; }
-
-    UPROPERTY(BlueprintAssignable)
-    FTFGQuestChanged OnQuestChanged;
+protected:
+    virtual void BeginPlay() override;
 
 private:
-    UPROPERTY()
-    TArray<FTFGQuestState> QuestStates;
+    void SyncToPersistentSave();
+    UPROPERTY() TArray<FTFGQuestState> QuestStates;
 };
