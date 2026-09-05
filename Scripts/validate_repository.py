@@ -21,6 +21,8 @@ required = [
     "Source/TheForbiddenGates/Private/TFGCampaignLevelRuntime.cpp",
     "Source/TheForbiddenGates/Public/TFGCampaignEliteEnemy.h",
     "Source/TheForbiddenGates/Private/TFGCampaignEliteEnemy.cpp",
+    "Source/TheForbiddenGates/Public/TFGEndingChoiceActor.h",
+    "Source/TheForbiddenGates/Private/TFGEndingChoiceActor.cpp",
     "Docs/GAME_BIBLE.md",
     "Docs/LEVEL_PLAN_001_100.md",
     "Docs/TECHNICAL_ARCHITECTURE.md",
@@ -43,18 +45,37 @@ catalog_path = root / "Source/TheForbiddenGates/Private/TFGCampaignCatalog.cpp"
 if catalog_path.exists():
     catalog = catalog_path.read_text(encoding="utf-8")
     declared_levels = {int(value) for value in re.findall(r"\{(\d+),\s*TEXT\(\"", catalog)}
-    expected_levels = set(range(4, 51))
+    expected_levels = set(range(4, 101))
     missing_levels = sorted(expected_levels - declared_levels)
     if missing_levels:
         errors.append(f"Campaign runtime catalog is missing levels: {missing_levels}")
-    if 'TEXT("Elyra")' not in catalog or 'LevelNumber == 50' not in catalog:
+    if 'TEXT("Elyra")' not in catalog or 'LevelNumber==50' not in catalog.replace(" ", ""):
         errors.append("Level 50 midpoint definition is missing")
+    if 'TEXT("What Lies Beyond")' not in catalog or 'LevelNumber==100' not in catalog.replace(" ", ""):
+        errors.append("Level 100 finale definition is missing")
+
+header = root / "Source/TheForbiddenGates/Public/TFGCampaignCatalog.h"
+if header.exists():
+    text = header.read_text(encoding="utf-8")
+    if "LevelNumber <= 100" not in text:
+        errors.append("Campaign runtime must accept levels through 100")
+    if "bFinalLevel" not in text:
+        errors.append("Campaign catalog must mark the final level")
+
+runtime_path = root / "Source/TheForbiddenGates/Private/TFGCampaignLevelRuntime.cpp"
+if runtime_path.exists():
+    text = runtime_path.read_text(encoding="utf-8")
+    for token in ("ATFGEndingChoiceActor", "Seal the Gates", "Destroy the Gates", "Control the Gates", "bNewGamePlus", "CampaignComplete"):
+        if token not in text:
+            errors.append(f"Finale runtime is missing required token: {token}")
+    if "Save->CurrentLevel = 51" not in text:
+        errors.append("Old Level 50 midpoint saves must migrate into Level 51")
 
 game_mode = root / "Source/TheForbiddenGates/Private/TFGGameMode.cpp"
 if game_mode.exists():
     text = game_mode.read_text(encoding="utf-8")
     if "FTFGCampaignCatalog::IsRuntimeLevel" not in text or "ATFGCampaignLevelRuntime" not in text:
-        errors.append("GameMode must route levels 4-50 through the campaign runtime")
+        errors.append("GameMode must route runtime campaign levels through ATFGCampaignLevelRuntime")
 
 tags_path = root / "Config/DefaultGameplayTags.ini"
 if tags_path.exists():
@@ -74,4 +95,4 @@ if errors:
         print(f" - {error}")
     sys.exit(1)
 
-print("The Forbidden Gates desktop repository validation passed through campaign level 50.")
+print("The Forbidden Gates desktop repository validation passed through campaign level 100.")
