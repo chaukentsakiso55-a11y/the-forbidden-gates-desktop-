@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/package-source.yml'
+      - 'PLAY_FORBIDDEN_GATES.bat'
   workflow_dispatch:
 
 permissions:
